@@ -14,11 +14,11 @@
             }
         </style>
 
-        <canvas id="canvas1" title="Globe" 
+        <canvas id="canvas1" title="Globe"
                 style="z-index: 1; position:absolute; left:0px; top:0px;" height="480px" width="480px">
         </canvas>
 
-        <canvas id="canvas2" title="ISS" 
+        <canvas id="canvas2" title="ISS"
                 style="z-index: 2; position:absolute; left:0px; top:0px;" height="480px" width="480px">
         </canvas>
     </head>
@@ -59,7 +59,7 @@
        IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
        CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
        TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-       SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+       SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
      */
         /* This program represents a sequence of minimal adaptations of the original program.
     // A lot of code optimization and elegance could be added, but that would just make it harder to port to the next language.
@@ -6120,23 +6120,23 @@
             [23, 1139, 1161],
             [28, 1153, 1180]
         ];
-            // global (ha!) variables for globe to fit canvas
-            var globeWidth = 480;
-            var globeHeight = 480;
-            var GlobeBorderWidth = 6;
+              // global (ha!) variables for globe to fit canvas
+              var globeWidth = 480;
+              var globeHeight = 480;
+              var GlobeBorderWidth = 6;
 
-            // global variables for co-ordinates
-            var piRatio = Math.PI / 180;
-            var lat;  
-            var lon;
-            var showTenth = -1;    // showTenth is used to space out historic ISS plots
-            var arrayCoords = [];
+              // global variables for co-ordinates
+              var piRatio = Math.PI / 180;
+              var lat;
+              var lon;
+              var showTenth = -1;    // showTenth is used to space out historic ISS plots
+              var arrayCoords = [];
 
-            $(document).ready(function(){
+              $(document).ready(function(){
 
                 function getLatLon() {
                     $.getJSON("http://api.open-notify.org/iss-now.json?callback=?", function (posData){
-                        lat = parseFloat(posData["iss_position"]["latitude"]), 
+                        lat = parseFloat(posData["iss_position"]["latitude"]),
                         lon = parseFloat(posData["iss_position"]["longitude"]);
                         // console.log("api lat and lon are", lat, ",", lon)
                     });
@@ -6160,145 +6160,145 @@
                     context.fillStyle = background_color;           // draw midnight blue space around globe
                     context.fillRect(0, 0, cw, ch);
 
-                    // blue circle
-                    context.moveTo(center[0], center[1]); // center of the pie
-                    context.beginPath();
-                    context.moveTo(center[0], center[1]); // center of the pie
-                    context.arc(  // draw next arc
-                        center[0],
-                        center[1],
-                        radius,
-                        0,
-                        Math.PI * 2,
-                        false
-                        );
-                    context.lineTo(center[0], center[1]); // line back to the center
-                    context.closePath();
-                    context.fillStyle = 'blue'; // color
-                    context.fill();
-
-                // calculated values
-                    var  fa1, fa2, fa3, fa4, fa5, fa6, fa7, fa8, fa9;
-                    var  cosa, cosp, cost, sina, sint, sinp;
-                    var  rad;
-
-                // constants for clarity
-                    var  X = 0;
-                    var  Y = 1;
-                    var  Z = 2;
-
-                    var  degToRadians = 1.745329e-2; // pi / 180 
-                    var  PosY = -1; // which way y runs in graphics coords.. if origin is at upper left, reverse values of Y
-
-                //	phi and theta are latitude and longitude of the display center, and
-                //	..alpha is rotation around the center. Radius 1.0 is full screen.
-                    var phi; 
-                    var theta; 
-                    var alpha;
-                    var radius;
-
-                    var radus;
-                //double irad;
-
-                    rad = radius;  
-
-                    phi = lat;
-                    theta = lon;
-                    alpha = rot;
-
-                    if (phi < 0)  phi = 360.0e0 - phi;
-                    if (theta < 0) theta = 360.0e0 - theta;
-
-                    var sinp = Math.sin(phi * degToRadians);
-                    var cosp = Math.cos(phi * degToRadians);
-                    var sint = Math.sin(theta * degToRadians);
-                    var cost = Math.cos(theta * degToRadians);
-                    var sina = Math.sin(alpha * degToRadians);
-                    var cosa = Math.cos(alpha * degToRadians);
-
-                    var fa1 = cost * cosa + sinp * sina * sint;
-                    var fa2 = -cosp * sina;
-                    var fa3 = cost * sina * sinp - sint * cosa;
-                    var fa4 = cost * sina - sint * cosa * sinp;
-                    var fa5 = cosp * cosa;
-                    var fa6 = -cost * cosa * sinp - sint * sina;
-                    var fa7 = sint * cosp;
-                    var fa8 = sinp;
-                    var fa9 = cost * cosp;
-
-                    var x0, y0, z0;
-                    var z;
-                    var ix; 
-                    var iy;
-
-                    var icentr;
-                    var jcentr;
-                    var xprev;
-                    var yprev;
-                    var line;
-
-                    ix = 0; 
-                    iy = 0;
-                    xprev = 0;
-                    yprev = 0;
-                    icentr = center[0];
-                    jcentr = PosY*center[1];
-                    line = 0;
-
-                    context.strokeStyle = 'chartreuse';    // bright slightly yellowish green
-                    for (i = 6047; i>=0; i--) {
-                       if(globe_data[i][X] == -1 && 
-                           globe_data[i][Y] == -1 && 
-                           globe_data[i][Z] == -1) {
-                           continue;
-                           }
-
-                   while (i >= 0) {
-                       if(globe_data[i][X] == -1 && 
-                       globe_data[i][Y] == -1 && 
-                       globe_data[i][Z] == -1) {
-                           break; // divider between polygon segments
-                           }
-
-                    z0 = globe_data[i][Z] / 1.e3 - 1.0e0;
-                    y0 = globe_data[i][Y] / 1.e3 - 1.0e0;
-                    x0 = globe_data[i][X] / 1.e3 - 1.0e0;
-
-                    var cz = Math.floor(fa7*x0 + fa8*y0 + fa9*z0);
-                    if (cz < 0.0e0) { // < frac
-                        break; // positive Z only, ignore point on back
-                        }
-
-                    ix = fa1*x0 + fa2*y0 + fa3*z0;
-                    iy = fa4*x0 + fa5*y0 + fa6*z0;
-                    ix = Math.floor(rad*ix);
-                    iy = Math.floor(rad*iy);
-
-                    if (Math.abs(ix) > radius || Math.abs(iy) > radius) 
-                        break;
-
-                    ix = ix + icentr;	// original pgm had origin at screen center
-                    iy = iy + jcentr;	// .. adjust
-
-                    if (line != 0) { // skip the first time thru the loop
+                        // blue circle
+                        context.moveTo(center[0], center[1]); // center of the pie
                         context.beginPath();
-                        context.moveTo(xprev, PosY*yprev);
-                        context.lineTo(ix, PosY*iy);
-                        context.stroke();
-                        };
-                    line++;
+                        context.moveTo(center[0], center[1]); // center of the pie
+                        context.arc(  // draw next arc
+                            center[0],
+                            center[1],
+                            radius,
+                            0,
+                            Math.PI * 2,
+                            false
+                            );
+                        context.lineTo(center[0], center[1]); // line back to the center
+                        context.closePath();
+                        context.fillStyle = 'blue'; // color
+                        context.fill();
 
-                    xprev = ix;
-                    yprev = iy;
+                    // calculated values
+                        var  fa1, fa2, fa3, fa4, fa5, fa6, fa7, fa8, fa9;
+                        var  cosa, cosp, cost, sina, sint, sinp;
+                        var  rad;
 
-                    i--;
-                    }; // while
+                    // constants for clarity
+                        var  X = 0;
+                        var  Y = 1;
+                        var  Z = 2;
+
+                        var  degToRadians = 1.745329e-2; // pi / 180
+                        var  PosY = -1; // which way y runs in graphics coords.. if origin is at upper left, reverse values of Y
+
+                    //	phi and theta are latitude and longitude of the display center, and
+                    //	..alpha is rotation around the center. Radius 1.0 is full screen.
+                        var phi;
+                        var theta;
+                        var alpha;
+                        var radius;
+
+                        var radus;
+                    //double irad;
+
+                        rad = radius;
+
+                        phi = lat;
+                        theta = lon;
+                        alpha = rot;
+
+                        if (phi < 0)  phi = 360.0e0 - phi;
+                        if (theta < 0) theta = 360.0e0 - theta;
+
+                        var sinp = Math.sin(phi * degToRadians);
+                        var cosp = Math.cos(phi * degToRadians);
+                        var sint = Math.sin(theta * degToRadians);
+                        var cost = Math.cos(theta * degToRadians);
+                        var sina = Math.sin(alpha * degToRadians);
+                        var cosa = Math.cos(alpha * degToRadians);
+
+                        var fa1 = cost * cosa + sinp * sina * sint;
+                        var fa2 = -cosp * sina;
+                        var fa3 = cost * sina * sinp - sint * cosa;
+                        var fa4 = cost * sina - sint * cosa * sinp;
+                        var fa5 = cosp * cosa;
+                        var fa6 = -cost * cosa * sinp - sint * sina;
+                        var fa7 = sint * cosp;
+                        var fa8 = sinp;
+                        var fa9 = cost * cosp;
+
+                        var x0, y0, z0;
+                        var z;
+                        var ix;
+                        var iy;
+
+                        var icentr;
+                        var jcentr;
+                        var xprev;
+                        var yprev;
+                        var line;
+
+                        ix = 0;
+                        iy = 0;
+                        xprev = 0;
+                        yprev = 0;
+                        icentr = center[0];
+                        jcentr = PosY*center[1];
+                        line = 0;
+
+                        context.strokeStyle = 'chartreuse';    // bright slightly yellowish green
+                        for (i = 6047; i>=0; i--) {
+                           if(globe_data[i][X] == -1 &&
+                               globe_data[i][Y] == -1 &&
+                               globe_data[i][Z] == -1) {
+                               continue;
+                               }
+
+                       while (i >= 0) {
+                           if(globe_data[i][X] == -1 &&
+                           globe_data[i][Y] == -1 &&
+                           globe_data[i][Z] == -1) {
+                               break; // divider between polygon segments
+                               }
+
+                        z0 = globe_data[i][Z] / 1.e3 - 1.0e0;
+                        y0 = globe_data[i][Y] / 1.e3 - 1.0e0;
+                        x0 = globe_data[i][X] / 1.e3 - 1.0e0;
+
+                        var cz = Math.floor(fa7*x0 + fa8*y0 + fa9*z0);
+                        if (cz < 0.0e0) { // < frac
+                            break; // positive Z only, ignore point on back
+                            }
+
+                        ix = fa1*x0 + fa2*y0 + fa3*z0;
+                        iy = fa4*x0 + fa5*y0 + fa6*z0;
+                        ix = Math.floor(rad*ix);
+                        iy = Math.floor(rad*iy);
+
+                        if (Math.abs(ix) > radius || Math.abs(iy) > radius)
+                            break;
+
+                        ix = ix + icentr;	// original pgm had origin at screen center
+                        iy = iy + jcentr;	// .. adjust
+
+                        if (line != 0) { // skip the first time thru the loop
+                            context.beginPath();
+                            context.moveTo(xprev, PosY*yprev);
+                            context.lineTo(ix, PosY*iy);
+                            context.stroke();
+                            };
+                        line++;
+
+                        xprev = ix;
+                        yprev = iy;
+
+                        i--;
+                        }; // while
 
                 line = 0;
                 }; // for
                     context.restore();
 
-                }; 
+                };
 
                 function showISS(canvasid, showLat, showLon, alphaFade){
                     var ISScanvas2 = document.getElementById(canvasid);     // second canvas with canvasid "canvas2"
@@ -6307,13 +6307,13 @@
                     var centreY = globeHeight/2;
                     var ISSradius = centreX - GlobeBorderWidth;
                     var baseColour = "#FAFAFF";                             // near-white
-                    var cutoutColour = "#0000FF";                           // aka 'blue', same as globe body
+                    // var cutoutColour = "#0000FF";                           // aka 'blue', same as globe body
 
                     alphaFade = alphaFade % 200;                       // faster fades with brighter starts
                     var recentIsBrighter = 255 - alphaFade;
                     var hexFade = (recentIsBrighter).toString(16);
                     var baseColourFade = baseColour.concat(hexFade);
-                    var cutoutColourFade = cutoutColour.concat(hexFade);
+                    // var cutoutColourFade = cutoutColour.concat(hexFade);
                     var radLat = showLat * piRatio;
                     var radLon = showLon * piRatio;
 
@@ -6322,16 +6322,16 @@
                     ISScontext2.translate((centreX - (ISSradius * Math.sin(radLon))), (centreY - (ISSradius * Math.sin(radLat))));
                     ISScontext2.rotate(0.009 * alphaFade);          // twist as well as fade ISS on old co-ordinates
                     ISScontext2.fillStyle = baseColourFade;
-                    ISScontext2.fillRect(-6, -5, 12, 10);
-                    ISScontext2.fillStyle = cutoutColourFade;
-                    ISScontext2.fillRect(-2, -5, 4, 10);
+                    ISScontext2.fillRect(-6, -5, 4, 10);
+                    ISScontext2.fillStyle = baseColourFade;
+                    ISScontext2.fillRect(2, -5, 4, 10);
                     ISScontext2.fillStyle = baseColourFade;
                     ISScontext2.fillRect(-2, -1, 4, 1);
                     ISScontext2.restore();
                 }
 
                 function ISSpast(convert2alpha, ISSLat, ISSLon, histLat, histLon){
-                    /*   This function only forwards the ISS co-ordinates to show ISS if the co-ordinates are on the side of the globe facing the viewer.  The current ISS position will always be at the centre of the globe and the centre of the canvas. 
+                    /*   This function only forwards the ISS co-ordinates to show ISS if the co-ordinates are on the side of the globe facing the viewer.  The current ISS position will always be at the centre of the globe and the centre of the canvas.
 
                     Longitude is negative going west, positive going east.  Subtract the historic co-ordinates from the current ISS longitude.
                     Uses Pythagoras to account for curvature of earth in both directions so that extreme latitudes do not display ISS in space.
@@ -6344,22 +6344,22 @@
                     var dist2hist;
 
                     if ((diffLon < tweakHorizon) || (diffLon > -tweakHorizon)){
-                        dist2hist = (diffLon ** 2) + (diffLat ** 2);    
+                        dist2hist = (diffLon ** 2) + (diffLat ** 2);
                         if (dist2hist < (tweakHorizon ** 2) ){
                             showISS("canvas2", diffLat, diffLon, convert2alpha);
                         }
                     }
                     // two corner cases where leading or trailing horizon crosses dateline at + - 180 degrees longitude
-                    if ((ISSLon < -90) && (diffLon < -tweakHorizonDateLine)){         
-                        diffLon = diffLon + 360;                 
-                        dist2hist = (diffLon ** 2) + (diffLat ** 2);    
-                        if (dist2hist < (tweakHorizon ** 2)){                           
-                            showISS("canvas2", diffLat, diffLon, convert2alpha);  
+                    if ((ISSLon < -90) && (diffLon < -tweakHorizonDateLine)){
+                        diffLon = diffLon + 360;
+                        dist2hist = (diffLon ** 2) + (diffLat ** 2);
+                        if (dist2hist < (tweakHorizon ** 2)){
+                            showISS("canvas2", diffLat, diffLon, convert2alpha);
                         }
                     }
                     if ((ISSLon > 90) && (diffLon > tweakHorizonDateLine)){
                         diffLon = diffLon - 360;
-                        dist2hist = (diffLon ** 2) + (diffLat ** 2);    
+                        dist2hist = (diffLon ** 2) + (diffLat ** 2);
                         if (dist2hist < (tweakHorizon ** 2) ){
                             showISS("canvas2", diffLat, diffLon, convert2alpha);
                         }
@@ -6387,13 +6387,13 @@
                         indexedlat = arrayCoords[showTenth][0];
                         indexedlon = arrayCoords[showTenth][1];
                         ISSpast(showTenth, lat, lon, indexedlat, indexedlon);
-                        showTenth = showTenth + 10;             // user has to wait 80 seconds for ISSplots but it makes an attractive trail 
+                        showTenth = showTenth + 10;             // user has to wait 80 seconds for ISSplots but it makes an attractive trail
                     }
 
                     if (arrayCoords.length > 2000){ arrayCoords = [] }        // reset trail so screen does not get cluttered, produces a few tracks on globe
                 }
 
-                if (showTenth == -1) {getLatLon()} 
+                if (showTenth == -1) {getLatLon()}
 
                 setInterval(trackCoordDisplay, 8000);         // this is the seed, it is also copied in FN globecanvas
                 });
