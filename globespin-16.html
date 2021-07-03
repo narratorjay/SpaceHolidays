@@ -6309,7 +6309,8 @@
                     var baseColour = "#FAFAFF";                             // near-white
                     // var cutoutColour = "#0000FF";                           // aka 'blue', same as globe body
 
-                    alphaFade = alphaFade % 200;                       // faster fades with brighter starts
+                    // alphaFade = alphaFade % 200;                       // OLD - faster fades with brighter starts
+                    alphaFade = (alphaFade / 5) % 200;             //  trail of fading ISS positions should wrap globe before restarting at max alpha
                     var recentIsBrighter = 255 - alphaFade;
                     var hexFade = (recentIsBrighter).toString(16);
                     var baseColourFade = baseColour.concat(hexFade);
@@ -6339,7 +6340,8 @@
 
                     var diffLon = ISSLon - histLon;
                     var diffLat = -(ISSLat - histLat);      // because y increases down the canvas
-                    var tweakHorizon = 66;                  // longitude in degrees
+                    // var tweakHorizon = 66;                  // longitude in degrees
+                    var tweakHorizon = 72;                  // longitude in degrees
                     var tweakHorizonDateLine = 360 - tweakHorizon;
                     var dist2hist;
 
