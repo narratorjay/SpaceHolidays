@@ -6307,10 +6307,11 @@
                     var centreY = globeHeight/2;
                     var ISSradius = centreX - GlobeBorderWidth;
                     var baseColour = "#FAFAFF";                             // near-white
-                    // var cutoutColour = "#0000FF";                           // aka 'blue', same as globe body
 
-                    // alphaFade = alphaFade % 200;                       // OLD - faster fades with brighter starts
-                    alphaFade = (alphaFade / 5) % 200;             //  trail of fading ISS positions should wrap globe before restarting at max alpha
+
+                    alphaFade = (alphaFade / 5);                        //  slowly fade ISS icon,
+                    spinFade = alphaFade                                //  slowly rotate it with the same value
+                    if (alphaFade > 200) { alphaFade = 200 };           //  with a minimum opacity
                     var recentIsBrighter = 255 - alphaFade;
                     var hexFade = (recentIsBrighter).toString(16);
                     var baseColourFade = baseColour.concat(hexFade);
@@ -6321,7 +6322,7 @@
                     // Save starting position of canvas.  Translate origin, rotate canvas, draw ISS.  Restore canvas.
                     ISScontext2.save();
                     ISScontext2.translate((centreX - (ISSradius * Math.sin(radLon))), (centreY - (ISSradius * Math.sin(radLat))));
-                    ISScontext2.rotate(0.009 * alphaFade);          // twist as well as fade ISS on old co-ordinates
+                    ISScontext2.rotate(0.02 * spinFade);
                     ISScontext2.fillStyle = baseColourFade;
                     ISScontext2.fillRect(-6, -5, 4, 10);
                     ISScontext2.fillStyle = baseColourFade;
@@ -6340,7 +6341,6 @@
 
                     var diffLon = ISSLon - histLon;
                     var diffLat = -(ISSLat - histLat);      // because y increases down the canvas
-                    // var tweakHorizon = 66;                  // longitude in degrees
                     var tweakHorizon = 72;                  // longitude in degrees
                     var tweakHorizonDateLine = 360 - tweakHorizon;
                     var dist2hist;
@@ -6382,7 +6382,7 @@
                     // create an array of co-ordinates in reverse order with most recent at the front
                     getLatLon();
                     arrayCoords.unshift([lat, lon]);
-                    globecanvas("canvas1", globeWidth, globeHeight, lat, lon, 0);       // plot globe centred on new ISS co-ordina
+                    globecanvas("canvas1", globeWidth, globeHeight, lat, lon, 0);       // plot globe centred on new ISS co-ordinates
                     wipeISScanvas("canvas2");                                           // wipe ISS canvas to prevent smearing in ISS trail
 
                     while (showTenth < arrayCoords.length) {
@@ -6392,7 +6392,7 @@
                         showTenth = showTenth + 10;             // user has to wait 80 seconds for ISSplots but it makes an attractive trail
                     }
 
-                    if (arrayCoords.length > 2000){ arrayCoords = [] }        // reset trail so screen does not get cluttered, produces a few tracks on globe
+                    if (arrayCoords.length > 4200){ arrayCoords = [] }        // NEW - reset trail so screen does not get cluttered, was 2800
                 }
 
                 if (showTenth == -1) {getLatLon()}
