@@ -1,0 +1,62 @@
+/* Header bar */
+/* Navigation bar */
+/* Left-hand column | Main content */
+/* Footer bar, mainly for credits */
+
+:root {
+    --eye-colour: #80adc2;
+}
+
+.headerGrad{
+    z-index: 90;
+    height: 70px;
+    position: relative;
+    color: var(--eye-colour);
+    background-image: linear-gradient(to right, #4f4f4f, #1f1f1f);
+}
+
+.navTop {
+  overflow: hidden;
+  background-color: #3a3a3a;
+}
+.navTop a {
+    float: left;
+    display: block;
+    color: var(--eye-colour);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+.navTop a:hover {
+    background-color: var(--eye-colour);
+    color: #010101;
+}
+
+.column-container {
+    display: table;
+    width: 100%;
+}
+
+.column {
+  float: left;
+}
+/* Left and right column */
+.column.side {
+  width: 17%;
+}
+/* Middle column */
+.column.middle {
+  width: 64%;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column.side, .column.middle {
+    width: 100%;
+  }
+}
