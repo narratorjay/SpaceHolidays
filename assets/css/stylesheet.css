@@ -40,13 +40,13 @@
 .column {
   float: left;
 }
-/* Left and right column */
+/* Left and right column, was 17% */
 .column.side {
-  width: 17%;
+  width: 25%;
 }
-/* Middle column */
+/* Middle column, was 64% */
 .column.middle {
-  width: 64%;
+  width: 50%;
 }
 /* Clear floats after the columns */
 .row:after {
