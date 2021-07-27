@@ -13,6 +13,6 @@ I have these aims with this upgrade to the live ISS animation displayed at http:
 - Improve the appearance of the fading track of recent ISS positions to a fixed transparency (alpha value) instead of cycling through dimming icon positions
 	*successful, longer fading trail lasting about twelve hours before restarting*
 - Add refugee camp locations
-	*researched locations, decided against adding them;  instead I uploaded complete short poem contrasting fortunes of astronauts and refugees*
+	*researched locations, decided against adding them;  instead I uploaded short poem contrasting fortunes of astronauts and refugees*
 - Deleted old Drupal contents that were no longer needed
 
