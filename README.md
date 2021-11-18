@@ -1,4 +1,5 @@
 # Space Holidays
+# Note that animation is halted until the API call returning live co-ordinates is amended to use https
 
 I have these aims with this upgrade to the live ISS animation displayed at http://narratorjay.me
 
