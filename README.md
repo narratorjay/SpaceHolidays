@@ -1,6 +1,6 @@
 # Space Holidays
-## Note that animation is halted until the API call for co-ordinates, now using https, works again through the hosting company's security
-## currently only works from local directory with python mini-web server .../public_html$ python -m http.server 8080 
+ Note that animation is halted until the API call for co-ordinates, now using https, works again through the hosting company's security
+ currently only works from local directory with python mini-web server .../public_html$ python -m http.server 8080 
 
 I have these aims with this upgrade to the live ISS animation displayed at http://narratorjay.me
 
